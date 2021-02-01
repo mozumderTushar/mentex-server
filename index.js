@@ -11,15 +11,22 @@ const app = express()
 app.use(bodyParser.json());
 app.use(cors());
 
-
 const port = 5000
-
 
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const professionalAppointmentCollection = client.db("mentex").collection("professionalAppointments");
   console.log('db connected');
+
+
+  app.post('/addProfessionalAppointment', (req, res) => { /** professional Appointments post from front end*/
+    const appointment = req.body;
+    professionalAppointmentCollection.insertOne(appointment)
+      .then(result => {
+        res.send(result)
+      })
+  });
 });
 
 
