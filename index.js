@@ -47,20 +47,29 @@ client.connect(err => {
 
   app.get('/allAdmins', (req, res) => { /** all admin collection */
     adminCollection.find({})
-        .toArray((err, documents) => {
-            res.send(documents)
-        })
-})
+      .toArray((err, documents) => {
+        res.send(documents)
+      })
+  })
 
-  // add admin to server
-  app.post('/addAdmin', (req, res) => {
+  app.post('/addAdmin', (req, res) => { /** add admin to server */
     const event = req.body;
     adminCollection.insertOne(event)
-        .then(result => {
-            console.log(result)
-            res.send(result)
-        })
-})
+      .then(result => {
+        console.log(result)
+        res.send(result)
+      })
+  })
+
+  app.post('/addExpert', (req, res) => { /** add expert to server */
+    const event = req.body;
+    expertsCollection.insertOne(event)
+      .then(result => {
+        console.log(result)
+        res.send(result)
+      })
+  })
+
 });
 
 
