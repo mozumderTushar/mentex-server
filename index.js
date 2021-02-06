@@ -17,6 +17,9 @@ const port = 5000
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const professionalAppointmentCollection = client.db("mentex").collection("professionalAppointments");
+  const expertsCollection = client.db("mentex").collection("experts");
+  const adminCollection = client.db("mentex").collection("admins");
+  const userCollection = client.db("mentex").collection("user");
   console.log('db connected');
 
 
@@ -27,6 +30,37 @@ client.connect(err => {
         res.send(result)
       })
   });
+
+  app.get('/allExperts', (req, res) => { /** all experts collection */
+    expertsCollection.find({})
+      .toArray((err, documents) => {
+        res.send(documents)
+      })
+  });
+
+  app.get('/allUser', (req, res) => { /** all user collection */
+    userCollection.find({})
+      .toArray((err, documents) => {
+        res.send(documents)
+      })
+  });
+
+  app.get('/allAdmins', (req, res) => { /** all admin collection */
+    adminCollection.find({})
+        .toArray((err, documents) => {
+            res.send(documents)
+        })
+})
+
+  // add admin to server
+  app.post('/addAdmin', (req, res) => {
+    const event = req.body;
+    adminCollection.insertOne(event)
+        .then(result => {
+            console.log(result)
+            res.send(result)
+        })
+})
 });
 
 
