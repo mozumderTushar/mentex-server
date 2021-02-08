@@ -53,6 +53,13 @@ client.connect(err => {
       })
   })
 
+  app.get('/allAppointment', (req, res) => { /** all appointment collection */
+    professionalAppointmentCollection.find({})
+      .toArray((err, documents) => {
+        res.send(documents)
+      })
+  })
+
   app.post('/addAdmin', (req, res) => { /** add admin to server */
     const event = req.body;
     adminCollection.insertOne(event)
