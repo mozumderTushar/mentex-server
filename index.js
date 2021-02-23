@@ -21,12 +21,21 @@ client.connect(err => {
   const expertsCollection = client.db("mentex").collection("experts");
   const adminCollection = client.db("mentex").collection("admins");
   const userCollection = client.db("mentex").collection("user");
+  const prescriptionCollection = client.db("mentex").collection("prescription");
   console.log('db connected');
 
 
   app.post('/addProfessionalAppointment', (req, res) => { /** professional Appointments post from front end*/
     const appointment = req.body;
     professionalAppointmentCollection.insertOne(appointment)
+      .then(result => {
+        res.send(result)
+      })
+  });
+
+  app.post('/addPrescription', (req, res) => { /** prescription post from front end*/
+    const prescription = req.body;
+    prescriptionCollection.insertOne(prescription)
       .then(result => {
         res.send(result)
       })
