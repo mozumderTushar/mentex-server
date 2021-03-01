@@ -69,6 +69,13 @@ client.connect(err => {
       })
   })
 
+  app.get('/allPrescription', (req, res) => { /** all Prescription collection */
+    prescriptionCollection.find({})
+      .toArray((err, documents) => {
+        res.send(documents)
+      })
+  })
+
   app.post('/addAdmin', (req, res) => { /** add admin to server */
     const event = req.body;
     adminCollection.insertOne(event)
