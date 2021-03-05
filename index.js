@@ -62,6 +62,20 @@ client.connect(err => {
       })
   })
 
+  app.get('/Admin/:id', (req, res) => { /** single admin collection */
+    adminCollection.find({ _id: ObjectId(req.params.id) })
+      .toArray((err, documents) => {
+        res.send(documents)
+      })
+  })
+
+  app.get('/Expert/:id', (req, res) => { /** single expert collection */
+    expertsCollection.find({ _id: ObjectId(req.params.id) })
+      .toArray((err, documents) => {
+        res.send(documents)
+      })
+  })
+
   app.get('/allAppointment', (req, res) => { /** all appointment collection */
     professionalAppointmentCollection.find({})
       .toArray((err, documents) => {
@@ -105,6 +119,42 @@ client.connect(err => {
     expertsCollection.deleteOne({ _id: ObjectId(req.params.id) })
       .then(result => {
         res.send(result.deletedCount > 0);
+      })
+  })
+
+  app.put('/AdminUpdate/:id', (req, res) => { /**  update admin info */
+    adminCollection.updateOne({ _id: ObjectId(req.params.id) },
+      {
+        $set: {
+          fullName: req.body.fullName,
+          email: req.body.email,
+          mobile: req.body.mobile,
+          gender: req.body.gender,
+          age: req.body.age
+        },
+        $currentDate: { lastModified: true }
+      })
+      .then(result => {
+        res.send(result.modifiedCount > 0)
+      })
+  })
+
+  app.put('/ExpertUpdate/:id', (req, res) => { /**  update expert info */
+    expertsCollection.updateOne({ _id: ObjectId(req.params.id) },
+      {
+        $set: {
+          fullName: req.body.fullName,
+          email: req.body.email,
+          mobile: req.body.mobile,
+          occupation: req.body.occupation,
+          gender: req.body.gender,
+          details: req.body.details,
+          img: req.body.img,
+        },
+        $currentDate: { lastModified: true }
+      })
+      .then(result => {
+        res.send(result.modifiedCount > 0)
       })
   })
 
