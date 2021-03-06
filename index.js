@@ -22,6 +22,7 @@ client.connect(err => {
   const adminCollection = client.db("mentex").collection("admins");
   const userCollection = client.db("mentex").collection("user");
   const prescriptionCollection = client.db("mentex").collection("prescription");
+  const postCollection = client.db("mentex").collection("post");
   console.log('db connected');
 
 
@@ -40,6 +41,30 @@ client.connect(err => {
         res.send(result)
       })
   });
+
+  app.post('/addAdmin', (req, res) => { /** add admin to server */
+    const event = req.body;
+    adminCollection.insertOne(event)
+      .then(result => {
+        res.send(result)
+      })
+  })
+
+  app.post('/addExpert', (req, res) => { /** add expert to server */
+    const event = req.body;
+    expertsCollection.insertOne(event)
+      .then(result => {
+        res.send(result)
+      })
+  })
+
+  app.post('/addPost', (req, res) => { /** add post to server */
+    const event = req.body;
+    postCollection.insertOne(event)
+      .then(result => {
+        res.send(result)
+      })
+  })
 
   app.get('/allExperts', (req, res) => { /** all experts collection */
     expertsCollection.find({})
@@ -90,21 +115,10 @@ client.connect(err => {
       })
   })
 
-  app.post('/addAdmin', (req, res) => { /** add admin to server */
-    const event = req.body;
-    adminCollection.insertOne(event)
-      .then(result => {
-        console.log(result)
-        res.send(result)
-      })
-  })
-
-  app.post('/addExpert', (req, res) => { /** add expert to server */
-    const event = req.body;
-    expertsCollection.insertOne(event)
-      .then(result => {
-        console.log(result)
-        res.send(result)
+  app.get('/allPost', (req, res) => { /** all post collection */
+    postCollection.find({})
+      .toArray((err, documents) => {
+        res.send(documents)
       })
   })
 
