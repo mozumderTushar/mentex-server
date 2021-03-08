@@ -136,6 +136,13 @@ client.connect(err => {
       })
   })
 
+  app.delete('/deletePost/:id', (req, res) => { /**  delete post from server */
+    postCollection.deleteOne({ _id: ObjectId(req.params.id) })
+      .then(result => {
+        res.send(result.deletedCount > 0);
+      })
+  })
+
   app.put('/AdminUpdate/:id', (req, res) => { /**  update admin info */
     adminCollection.updateOne({ _id: ObjectId(req.params.id) },
       {
