@@ -143,6 +143,13 @@ client.connect(err => {
       })
   })
 
+  app.delete('/deleteAppointment/:id', (req, res) => { /**  delete appointment from server */
+    professionalAppointmentCollection.deleteOne({ _id: ObjectId(req.params.id) })
+      .then(result => {
+        res.send(result.deletedCount > 0);
+      })
+  })
+
   app.put('/AdminUpdate/:id', (req, res) => { /**  update admin info */
     adminCollection.updateOne({ _id: ObjectId(req.params.id) },
       {
